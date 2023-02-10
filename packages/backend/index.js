@@ -11,20 +11,71 @@ const express = require("express"); // Express web server framework
 const request = require("request"); // "Request" library
 const querystring = require("querystring");
 const cookieParser=require("cookie-parser");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
-
 app.use(cookieParser());
+app.use(cors())
 
-app.get("/login", function (req, res) {
+const deezerAppId = process.env.DEEZER_APP_ID;
+const deezerSecret = process.env.DEEZER_APP_SECRET;
+const redirect = process.env.DEEZER_CALLBACK_URI;
+
+var accessToken;
+var refreshToken;
+var expiration;
+
+app.get("/auth/login", function (req, res) {
+
+  res.redirect( "https://connect.deezer.com/oauth/auth.php?" +
+  querystring.stringify({
+    app_id: deezerAppId,
+    redirect_uri: "http://localhost.test:8888/auth/callback",//redirect,
+    perms: "basic_access,email",
+  }))
 });
 
-app.get("/callback", function (req, res) {
+app.get("/auth/callback", function (req, res) {
+
+  console.log("req ",req)
+  // console.log("res ",res)
+  const code = req.query.code || null ;
+  console.log(code)
+
+ 
+  request.get("https://connect.deezer.com/oauth/access_token.php?" +
+    querystring.stringify({
+      app_id: deezerAppId,
+      secret: deezerSecret,
+      code: code}), (error, response, body) => {
+        if (!error) {
+        console.log("accessToken : ",querystring.parse(body))
+        const token = querystring.parse(body);
+        accessToken = token.access_token;
+        expiration = token.expires;
+        res.redirect("http://localhost:3000")
+      } else res.redirect("http://localhost:3000"+
+      querystring.stringify({
+        error: error,
+      }))
+      })
 });
 
-app.get("/refresh_token", function (req, res) {
+app.get("/auth/token", function (req, res) {
+  res.json({accessToken});
+  res.cookie("accessToken", accessToken);
 });
+
+app.get("/search", (req, res) => {
+  const params = req.body.
+  request.get("https://api.deezer.com/search?" +
+    querystring.stringify({
+      q:
+    })
+
+  
+})
 
 console.log("Listening on 8888");
 app.listen(8888);
