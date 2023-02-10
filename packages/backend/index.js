@@ -16,7 +16,9 @@ require("dotenv").config();
 
 const app = express();
 app.use(cookieParser());
-app.use(cors())
+// app.use(bodyParser());
+app.use(cors());
+
 
 const deezerAppId = process.env.DEEZER_APP_ID;
 const deezerSecret = process.env.DEEZER_APP_SECRET;
@@ -37,20 +39,13 @@ app.get("/auth/login", function (req, res) {
 });
 
 app.get("/auth/callback", function (req, res) {
-
-  console.log("req ",req)
-  // console.log("res ",res)
   const code = req.query.code || null ;
-  console.log(code)
-
- 
   request.get("https://connect.deezer.com/oauth/access_token.php?" +
     querystring.stringify({
       app_id: deezerAppId,
       secret: deezerSecret,
       code: code}), (error, response, body) => {
         if (!error) {
-        console.log("accessToken : ",querystring.parse(body))
         const token = querystring.parse(body);
         accessToken = token.access_token;
         expiration = token.expires;
@@ -68,14 +63,30 @@ app.get("/auth/token", function (req, res) {
 });
 
 app.get("/search", (req, res) => {
-  const params = req.body.
-  request.get("https://api.deezer.com/search?" +
+  const params = req
+  console.log(req)
+  const searchOption = {
+    url: "https://api.deezer.com/search?" + 
     querystring.stringify({
-      q:
-    })
+      q:"booba"
+    }),
+    headers : {
+       Authorization: `Bearer ${accessToken}`
+    },
+    json: true,
+  }
 
-  
-})
+  request.get( searchOption, (error, response, body) => {
+      if(!error) {
+      console.log("response");
+      res.json({response});
+    } else {
+      console.error("error");
+      res.status(500);
+    }
+
+    })
+});
 
 console.log("Listening on 8888");
 app.listen(8888);
