@@ -1,4 +1,6 @@
-import { List, Progress } from "antd";
+import { PlayCircleOutlined, PlayCircleTwoTone, PlusCircleTwoTone } from "@ant-design/icons";
+import { Button, List, Progress } from "antd";
+import Text from "antd/lib/typography/Text";
 
 function TrackCard({ track, setTrackToPlay }) {
   function millisToMinutesAndSeconds(millis) {
@@ -31,7 +33,7 @@ function TrackCard({ track, setTrackToPlay }) {
       <div
         style={{
           display: "grid",
-          gridTemplateColumns: "10% 30% 30% 30%",
+          gridTemplateColumns: "10% 28% 24% 28% 10%",
           justifyContent: "space-evenly",
           textAlign: "left",
         }}
@@ -40,9 +42,17 @@ function TrackCard({ track, setTrackToPlay }) {
           {/* rank goes from 0 to 1M */}
           <Progress percent={(track.rank / 10000).toFixed(0)} showInfo={false} />
         </div>
-        <div>{name}</div>
+        <div style={{ cursor: "pointer" }}>
+          <Text>{name}</Text>
+        </div>
         <div>{artist.name}</div>
         <div>{album.title}</div>
+        <div className="flex">
+          <Button icon={<PlayCircleTwoTone />} onClick={() => setTrackToPlay(track)}>
+            Play
+          </Button>
+          <Button icon={<PlusCircleTwoTone />}>Add</Button>
+        </div>
       </div>
     </List.Item>
   );

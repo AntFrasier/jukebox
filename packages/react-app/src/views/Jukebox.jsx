@@ -14,7 +14,11 @@ function Jukebox() {
   const [albums, setAlbums] = useState();
   const [trackToPlay, setTrackToPlay] = useState();
 
-  //todo add a logOUt
+  //todo add token manager with expiracy
+  const logout = () => {
+    setToken("");
+    window.localStorage.removeItem("token");
+  };
 
   useEffect(() => {
     async function getToken() {
@@ -28,8 +32,6 @@ function Jukebox() {
     getToken();
   }, []);
 
-  // const logo = theme == "light" ? Deezer_Logo_RVB_Black : Deezer_Logo_RVB_White;
-
   return (
     <div className="container m-auto relative max-h-100">
       {!token ? (
@@ -38,7 +40,10 @@ function Jukebox() {
           Login{" "}
         </Button>
       ) : (
-        <div className="m" style={{ maxHeight: "100%" }}>
+        <div className="" style={{ maxHeight: "100%" }}>
+          <button className="mt-5 text-black l-0" onClick={logout}>
+            Logout
+          </button>
           <Search setArtists={setArtists} setTracks={setTracks} setAlbums={setAlbums} />
           {artists ? (
             <>
@@ -50,7 +55,7 @@ function Jukebox() {
         </div>
       )}
 
-      <div className="b-0">
+      <div className="fixed bottom-0 left-0 right-0 w-100 bg-red h-20 flex items-center m-auto justify-center">
         {trackToPlay ? <Player track={trackToPlay} isPlaying={false} progressMs={500000} /> : <p>no tracks to play</p>}
       </div>
     </div>
