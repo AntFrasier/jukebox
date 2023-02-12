@@ -3,10 +3,10 @@ import { green } from "@ant-design/colors";
 
 const Player = ({ track, isPlaying, progressMs }) => {
   return (
-    <div className="flex flex-row justify-between">
+    <div className="flex flex-row justify-between items-center">
       <div className="flex flex-row mt-5">
         <div className="flex align-middle h-10 w-10 mr-2">
-          <img src={track.artist.album?.cover} alt={track.artist.name} />
+          <img style={{ borderRadius: "50%" }} src={track.artist.picture_small} alt={track.artist.name} />
         </div>
         <div className="mr-2">
           <Button
