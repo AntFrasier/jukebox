@@ -63,12 +63,12 @@ app.get("/auth/token", function (req, res) {
 });
 
 app.get("/search", (req, res) => {
-  const params = req
-  console.log(req)
+  const params = req.query;
+  console.log(params.toSearch)
   const searchOption = {
     url: "https://api.deezer.com/search?" + 
     querystring.stringify({
-      q:"booba"
+      q: params.toSearch
     }),
     headers : {
        Authorization: `Bearer ${accessToken}`

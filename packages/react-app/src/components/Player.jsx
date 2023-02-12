@@ -1,12 +1,12 @@
 import { Button, Progress } from "antd";
 import { green } from "@ant-design/colors";
 
-const Player = ({ artist, isPlaying, progressMs }) => {
+const Player = ({ track, isPlaying, progressMs }) => {
   return (
     <div className="flex flex-row justify-between">
       <div className="flex flex-row mt-5">
         <div className="flex align-middle h-10 w-10 mr-2">
-          <img src={artist.album?.images[0]?.url} alt={artist.name} />
+          <img src={track.artist.album?.cover} alt={track.artist.name} />
         </div>
         <div className="mr-2">
           <Button

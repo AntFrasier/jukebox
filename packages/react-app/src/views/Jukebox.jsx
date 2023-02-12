@@ -2,10 +2,19 @@ import { useEffect, useState } from "react";
 import Deezer_Logo_RVB_Black from "../img/Deezer_Logo_RVB_Black.svg";
 import Deezer_Logo_RVB_White from "../img/Deezer_Logo_RVB_White.svg";
 import Search from "../components/Search";
-//${process.env.REACT_APP_DEEZER_CALLBACK_URI}
+import { Button, Divider } from "antd";
+import ArtistList from "../components/ArtistList";
+import { TrackList } from "../components";
+import Player from "../components/Player";
 
 function Jukebox() {
   const [token, setToken] = useState();
+  const [artists, setArtists] = useState();
+  const [tracks, setTracks] = useState();
+  const [albums, setAlbums] = useState();
+  const [trackToPlay, setTrackToPlay] = useState();
+
+  //todo add a logOUt
 
   useEffect(() => {
     async function getToken() {
@@ -20,19 +29,30 @@ function Jukebox() {
   }, []);
 
   // const logo = theme == "light" ? Deezer_Logo_RVB_Black : Deezer_Logo_RVB_White;
-  const logo = Deezer_Logo_RVB_Black;
+
   return (
-    <div class="container">
-      <img src={logo} />
-      <h2>ScafoldEth Juske Box using Deezer API</h2>
+    <div className="container m-auto relative max-h-100">
       {!token ? (
-        <a href={"http://localhost:8888/auth/login"}> Login </a>
+        <Button type="primary" href={"http://localhost:8888/auth/login"}>
+          {" "}
+          Login{" "}
+        </Button>
       ) : (
-        <div>
-          <p>LoggedIn</p>
-          <Search />
+        <div className="m" style={{ maxHeight: "100%" }}>
+          <Search setArtists={setArtists} setTracks={setTracks} setAlbums={setAlbums} />
+          {artists ? (
+            <>
+              {/* <ArtistList artists={artists} />  */}
+              <Divider />
+            </>
+          ) : null}
+          {tracks ? <TrackList tracks={tracks} setTrackToPlay={setTrackToPlay} /> : null}
         </div>
       )}
+
+      <div className="b-0">
+        {trackToPlay ? <Player track={trackToPlay} isPlaying={false} progressMs={500000} /> : <p>no tracks to play</p>}
+      </div>
     </div>
   );
 }

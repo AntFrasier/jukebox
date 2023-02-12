@@ -25,3 +25,5 @@ export { default as NetworkSwitch } from "./NetworkSwitch";
 export { default as MultiAddressInput } from "./MultiAddressInput";
 export { default as TokenSelect } from "./TokenSelect";
 export { default as Search } from "./Search";
+export { default as TrackCard } from "./TrackCard";
+export { default as TrackList } from "./TrackList";

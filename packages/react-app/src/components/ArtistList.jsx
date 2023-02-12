@@ -1,6 +1,5 @@
 // import Player from "../components/Player";
 import { List } from "antd";
-import SpotifyPlayer from "react-spotify-player";
 
 function ArtistList({ artists }) {
   const renderArtistCard = artist => {
@@ -18,8 +17,8 @@ function ArtistList({ artists }) {
           <div>
             {artist.uri ? (
               <div>
-                <SpotifyPlayer uri={artist.uri} view="list" theme="black" />
-                {/* todo: <Player artist={artist} isPlaying={false} progressMs={0} /> */}
+                {/* <SpotifyPlayer uri={artist.uri} view="list" theme="black" />
+                todo: <Player artist={artist} isPlaying={false} progressMs={0} /> */}
               </div>
             ) : (
               <span>No URI</span>
