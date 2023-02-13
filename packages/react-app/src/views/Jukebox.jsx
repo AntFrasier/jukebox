@@ -9,6 +9,7 @@ import Player from "../components/Player";
 
 function Jukebox() {
   const [token, setToken] = useState();
+  const [expiration, setExpiration] = useState();
   const [artists, setArtists] = useState();
   const [tracks, setTracks] = useState();
   const [albums, setAlbums] = useState();
@@ -26,6 +27,7 @@ function Jukebox() {
       const response = await fetch("http://localhost:8888/auth/token");
       const json = await response.json();
       setToken(json.accessToken);
+      setExpiration(json.expiration);
       window.localStorage.setItem("token", json.accessToken);
     }
     //todo manage refresh token

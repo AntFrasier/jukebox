@@ -58,7 +58,7 @@ app.get("/auth/callback", function (req, res) {
 });
 
 app.get("/auth/token", function (req, res) {
-  res.json({accessToken});
+  res.json({accessToken, expiration});
   res.cookie("accessToken", accessToken);
 });
 
